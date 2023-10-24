@@ -1,0 +1,28 @@
+/* root.css */
+
+/* Customize scrollbar width */
+::-webkit-scrollbar {
+    width: 8px; /* Adjust the width as desired */
+  }
+  
+  /* Customize scrollbar track */
+  ::-webkit-scrollbar-track {
+    background-color: transparent; /* Change to desired color */
+  }
+  
+  /* Customize scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* Change to desired color */
+    border-radius: 8px; /* Round the edges */
+  }
+  
+  /* Customize scrollbar thumb on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5); /* Change to desired color */
+  }
+  
+  /* Customize scrollbar thumb when active (scrolled or hovered) */
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(0, 0, 0, 0.7); /* Change to desired color */
+  }
+  
