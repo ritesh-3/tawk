@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 
-export const BASE_URL = "http://localhost:4000/";
+// export const BASE_URL = "http://localhost:4000/";
+export const BASE_URL = "https://tawk-backend.vercel.app/";
 
 export const ImagesConstant = {
     logo: '/assets/images/logo.ico',

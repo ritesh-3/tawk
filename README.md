@@ -4,7 +4,7 @@ Tawk is a full-stack social media application built using the MERN (MongoDB, Exp
 
 ## Demo
 
-Check out the live demo: [Tawk Demo](your-demo-url-here)
+Check out the live demo: [Tawk Demo](https://tawk-one.vercel.app/)
 
 ## Technologies Used
 
