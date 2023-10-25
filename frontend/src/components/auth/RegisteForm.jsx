@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 // @mui
-import { Link, Stack, Alert, IconButton, InputAdornment } from "@mui/material";
+import { Link, Stack, Alert, IconButton, InputAdornment, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 // components
 import { Eye, EyeSlash } from "phosphor-react";
@@ -60,8 +60,7 @@ export default function AuthRegisterForm() {
                     <RHFTextField name="username" label="User Name" />
                 </Stack>
 
-                <RHFTextField name="email" label="Email address" />
-
+                <RHFTextField name="email" label="Email address" helperText={"Email will be used for password recovery, so please enter a valid email"} />
                 <RHFTextField
                     name="password"
                     label="Password"

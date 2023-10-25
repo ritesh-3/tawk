@@ -24,7 +24,9 @@ const Inbox = () => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllChats())
-        socket.current = io(BASE_URL);
+        if (!socket?.current) {
+            socket.current = io(BASE_URL);
+        }
 
         socket.current.on("getMessage", (data) => {
             if (data && data.senderId === userId) {
@@ -38,6 +40,8 @@ const Inbox = () => {
         })
     }, [])
 
+    socket.current = io(BASE_URL);
+
     return (
         <Stack
             sx={{
@@ -49,7 +53,7 @@ const Inbox = () => {
                 (!isDesktop && userId) ? "" : <AllChats />
             }
             {userId && socket?.current ? (
-                <Conversation socket={socket.current} /> 
+                <Conversation socket={socket.current} />
             ) : (<>
                 {isDesktop &&
                     <NoConversation />

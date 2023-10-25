@@ -22,7 +22,7 @@ const ChatLoader = ({ loading = false }) => {
                 </Box>
                 <Box sx={{ width: '100%' }}>
                     <Skeleton width="100%">
-                        <Typography>.</Typography>
+                        <Typography paddingTop={"20%"} >.</Typography>
                     </Skeleton>
                 </Box>
             </Box>

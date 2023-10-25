@@ -105,13 +105,15 @@ const ChatElement = ({ _id, users, latestMessage }) => {
                     )}
                     <Stack spacing={0.3}>
                         <Typography variant="subtitle2">{friend.name}</Typography>
-                        <Typography variant="caption">{truncateText(latestMessage.content, 20)}</Typography>
+                        {latestMessage && latestMessage.content && <Typography variant="caption">{truncateText(latestMessage.content, 20)}</Typography>}
                     </Stack>
                 </Stack>
                 <Stack spacing={2} alignItems={"center"}>
-                    <Typography sx={{ fontWeight: 200 }} variant="caption">
-                        {formatChatTime(latestMessage.createdAt)}
-                    </Typography>
+                    {latestMessage && latestMessage.createdAt &&
+                        <Typography sx={{ fontWeight: 200 }} variant="caption">
+                            {formatChatTime(latestMessage.createdAt)}
+                        </Typography>
+                    }
                     {/* <Badge
                         className="unread-count"
                         color="primary"

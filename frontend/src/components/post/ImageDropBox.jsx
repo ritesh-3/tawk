@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { X } from 'phosphor-react';
 
 const ImageDropBox = ({ onImageUpload }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-
+    const theme = useTheme()
 
     const handleDrop = (e) => {
         e.preventDefault();
@@ -47,7 +47,7 @@ const ImageDropBox = ({ onImageUpload }) => {
             maxHeight='450px'
             sx={{
                 border: `2px dashed ${selectedImage ? 'transparent' : '#ced4da'}`,
-                backgroundColor: 'white',
+                backgroundColor: theme.palette.background.default,
                 cursor: 'pointer',
                 minHeight: '200px',
                 padding: '20px',
@@ -55,7 +55,7 @@ const ImageDropBox = ({ onImageUpload }) => {
         >
             {
                 selectedImage && (
-                    <IconButton sx={{ position: 'absolute', right:10, top:'60px' }} onClick={() => setSelectedImage(null)}>
+                    <IconButton sx={{ position: 'absolute', right: 10, top: '60px' }} onClick={() => setSelectedImage(null)}>
                         <X size={24} />
                     </IconButton>
                 )

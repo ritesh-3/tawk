@@ -3,10 +3,13 @@ import { ArrowLeft, DotsThreeOutlineVertical } from "phosphor-react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import useResponsive from "../../hooks/useResponsive";
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
+const StyledBadge = styled(Badge)(({ theme, online }) => ({
     "& .MuiBadge-badge": {
         backgroundColor: "#44b700",
         color: "#44b700",
+        minWidth: '0px',
+        height: '12px',
+        display: online ? 'block':'none',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         "&::after": {
             position: "absolute",
@@ -62,7 +65,7 @@ const ChatHeader = ({ user, online }) => {
                         vertical: "bottom",
                         horizontal: "top",
                     }}
-                    variant={online ? 'dot' : 'standard'}
+                    online={online}
                 >
                     <Stack direction={'row'} spacing={2} alignItems={'center'}>
                         <Avatar src={user.avatar.url} />

@@ -46,7 +46,7 @@ const ChatInput = ({
                 disableUnderline: true,
                 endAdornment: (
                     <Stack sx={{ position: "relative" }}>
-                        <InputAdornment position='start'>
+                        <InputAdornment position='end'>
                             <IconButton
                                 onClick={() => {
                                     setOpenPicker(!openPicker);

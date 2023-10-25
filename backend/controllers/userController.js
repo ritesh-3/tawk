@@ -3,9 +3,11 @@ const Post = require('../models/postModel');
 const catchAsync = require('../middlewares/catchAsync');
 const sendCookie = require('../utils/sendCookie');
 const ErrorHandler = require('../utils/errorHandler');
-const sendEmail = require('../utils/sendEmail');
+const { sendEmail, getResetPasswordHtml } = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
+const resetPassword = require('../utils/resetPassword');
+
 
 // Signup User
 exports.signupUser = catchAsync(async (req, res, next) => {
@@ -30,7 +32,7 @@ exports.signupUser = catchAsync(async (req, res, next) => {
     } else {
         myCloud = {
             public_id: "",
-            secure_url: "to_load_fallback_MUI_avatar.jpg"
+            secure_url: ""
         }
     }
 
@@ -228,7 +230,7 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
     });
 });
 
-// Delete Profile ⚠️⚠️
+// Delete Profile
 exports.deleteProfile = catchAsync(async (req, res, next) => {
 
     const user = await User.findById(req.user._id);
@@ -237,7 +239,7 @@ exports.deleteProfile = catchAsync(async (req, res, next) => {
     const following = user.following;
     const userId = user._id;
 
-    // delete post & user images ⚠️⚠️
+    // delete post & user images
 
     await user.remove();
 
@@ -324,20 +326,18 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     await user.save();
 
-    const resetPasswordUrl = `https://${req.get("host")}/password/reset/${resetPasswordToken}`;
+    const resetPasswordUrl = `${process.env.CLIENT_URL}/auth/reset/${resetPasswordToken} `;
 
     try {
         await sendEmail({
             email: user.email,
-            templateId: process.env.SENDGRID_RESET_TEMPLATEID,
-            data: {
-                reset_url: resetPasswordUrl
-            }
+            subject: "Reset Your Tawk Password",
+            html: resetPassword(user.name, resetPasswordUrl)
         });
 
         res.status(200).json({
             success: true,
-            message: `Email sent to ${user.email}`,
+            message: `Email sent to ${user.email} `,
         });
 
     } catch (error) {
@@ -351,7 +351,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 // Reset Password
 exports.resetPassword = catchAsync(async (req, res, next) => {
-
     const resetPasswordToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
 
     const user = await User.findOne({

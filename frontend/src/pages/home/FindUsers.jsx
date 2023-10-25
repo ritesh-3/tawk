@@ -6,11 +6,11 @@ import useResponsive from '../../hooks/useResponsive'
 import { UserPlus } from 'phosphor-react'
 import customLogger from '../../utils/logger'
 import { useDispatch, useSelector } from 'react-redux'
-import SpinLoader from '../../components/loader/SpinLoader'
 import { LoadAllUsers } from '../../redux/slices/userSlice'
-import BackdropLoader from '../../components/loader/BackdropLoader'
 import { LoadingButton } from '@mui/lab';
 import useFollowUser from '../../hooks/useFollowUser';
+import ChatLoader from '../../components/loader/ChatLoader';
+import PostLoading from '../../components/loader/PostLoading';
 
 const StyledChatBox = styled(Box)(({ theme }) => ({
   "&:hover": {
@@ -39,24 +39,16 @@ const UserCard = ({ user }) => {
         : theme.palette.background.paper,
 
     }}
-    elevation={3}
+      elevation={3}
     >
       <CardContent>
         <Stack direction="row" spacing={2} alignItems='center'>
           <Typography variant="h6">{user.name}</Typography>
           <LoadingButton
+            sx={{
+              color: "common.white"
+            }}
             loading={followLoading}
-
-            // sx={{
-            // bgcolor: theme.palette.primary.main,
-            // color: (theme) =>
-            //   theme.palette.mode === "light" ? "common.white" : "grey.800",
-            // "&:hover": {
-            //   bgcolor: "text.primary",
-            //   color: (theme) =>
-            //     theme.palette.mode === "light" ? "common.white" : "grey.800",
-            // },
-            // }}
             variant="contained" onClick={() => handleFollow(user._id)}>
             {follow ? 'UnFollow' : 'Follow'}
           </LoadingButton>
@@ -74,11 +66,11 @@ const UserCard = ({ user }) => {
         </Stack>
 
       </CardContent>
-      <img
+      <Avatar
         src={user.avatar.url}
         alt={user.name}
-        style={{
-          padding: 5,
+        sx={{
+          mr:2,
           width: isDesktop ? '100px' : "80px",
           height: isDesktop ? '100px' : "80px",
         }}
@@ -109,7 +101,6 @@ const FindUsers = () => {
 
   return (
     <>
-      {isLoading && <BackdropLoader />}
       <Stack
         sx={{
           margin: "auto",
@@ -132,11 +123,15 @@ const FindUsers = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
         <Box sx={{ width: '100%', height: '100%', overflowY: 'auto' }}>
-          {filteredUsers && filteredUsers.length > 0 ? filteredUsers.map((item, idx) => (
-            <UserCard key={idx} user={item} />
-          )) : <Box sx={{ textAlign: 'center', marginTop: "24px" }}>
-            <Typography variant='body1'>No Users Found</Typography>
-          </Box>
+          {isLoading ? <ChatLoader loading={isLoading} /> :
+            <>
+              {filteredUsers && filteredUsers.length > 0 ? filteredUsers.map((item, idx) => (
+                <UserCard key={idx} user={item} />
+              )) : <Box sx={{ textAlign: 'center', marginTop: "24px" }}>
+                <Typography variant='body1'>No Users Found</Typography>
+              </Box>
+              }
+            </>
           }
         </Box>
       </Stack>

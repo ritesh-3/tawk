@@ -37,7 +37,8 @@ const UserListItem = ({ _id, avatar, username, name, followers }) => {
           loading={followLoading}
           onClick={() => handleFollow(_id)}
           sx={{
-            background: theme.palette.primary.main
+            background: theme.palette.primary.main,
+            color:"common.white"
           }}
         >
           {follow ? 'UnFollow' : 'Follow'}

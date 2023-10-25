@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../utils/axios"
 import customLogger from "../../utils/logger";
+import { showSnackbar } from "./app";
 const initialState = {
     chats: [],
     chatsLoading: false,
     messagesLoading: false,
     sendingMessage: false,
+    addNewChatLoading: false,
+    newChat: null,
     messages: []
 }
 
@@ -20,7 +23,8 @@ export const inboxSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getAllChats.pending, (state, action) => {
-                state.chatsLoading = true
+                state.chatsLoading = true,
+                    state.newChat = null //Clearing new CHat when inbox is visited
             })
             .addCase(getAllChats.fulfilled, (state, action) => {
                 state.chats = action.payload.chats
@@ -48,6 +52,19 @@ export const inboxSlice = createSlice({
             })
             .addCase(sendMessage.rejected, (state, action) => {
                 state.sendingMessage = false
+            })
+            .addCase(addNewChat.pending, (state, action) => {
+                state.addNewChatLoading = true
+                state.newChat = null;
+            })
+            .addCase(addNewChat.fulfilled, (state, action) => {
+                state.addNewChatLoading = false;
+                state.newChat = action.payload.newChat;
+
+            })
+            .addCase(addNewChat.rejected, (state, action) => {
+                state.addNewChatLoading = false;
+                state.newChat = null;
             })
     }
 })
@@ -84,4 +101,16 @@ export const sendMessage = createAsyncThunk('sendMessage', async (msgData) => {
         customLogger.error("getAllChats#sendMessage", "Error response", "", error)
         throw new Error(error.message);
     }
-}) 
+})
+
+export const addNewChat = createAsyncThunk("addNewChat", async (userId, { dispatch }) => {
+    try {
+        const { data } = await axios.post("/api/v1/newChat", { receiverId: userId });
+        customLogger.info("getAllChats#addNewChat", "New Chat added..")
+        return data
+    } catch (error) {
+        customLogger.error("getAllChats#addNewChat", "Error starting a new chat", "", error)
+        dispatch(showSnackbar({ severity: 'error', message: "Error Starting new chat" }))
+        throw new Error(error.message);
+    }
+})

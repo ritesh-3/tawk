@@ -23,7 +23,7 @@ const PostLoading = ({ loading = false }) => {
                 </Box>
             </Box>
             <Skeleton variant="rectangular" width="100%">
-                <Box style={{ paddingTop: '57%' }} />
+                <Box style={{ paddingTop: '40%' }} />
             </Skeleton>
         </>
     );

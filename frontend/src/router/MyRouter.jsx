@@ -8,6 +8,9 @@ import HomePage from '../pages/home/HomePage';
 import FindUsers from '../pages/home/FindUsers';
 import ProfilePage from '../pages/home/ProfilePage';
 import Inbox from '../pages/home/Inbox';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 
 const Loadable = (Component) => (props) => {
@@ -25,7 +28,9 @@ const MyRouter = () => {
         path: '/auth', element: <AuthLayout />,
         children: [
           { path: 'login', element: <LoginPage /> },
-          { path: 'register', element: <RegisterPage /> }
+          { path: 'register', element: <RegisterPage /> },
+          { path: 'forgot', element: <ForgotPasswordPage /> },
+          { path: 'reset/:token', element: <ResetPasswordPage /> }
         ]
       },
       {
@@ -39,7 +44,8 @@ const MyRouter = () => {
           { path: '/:username', element: <ProfilePage /> },
         ]
 
-      }
+      },
+      { path: '*', element: <NotFoundPage /> }
     ])
   )
 }

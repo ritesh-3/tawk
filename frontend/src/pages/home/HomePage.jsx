@@ -8,7 +8,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import PostLoading from '../../components/loader/PostLoading'
 import PostCard from '../../components/post/PostCard'
 
-const HeaderTile = ({ user }) => {
+const HeaderTile = ({ user, setOpenDialog }) => {
   const theme = useTheme();
   return <Paper elevation={2}
     sx={{
@@ -59,9 +59,17 @@ const PostList = () => {
   return (<>
     <Stack spacing={2} >
       {
-        posts.map((p) => (
-          <PostCard key={p._id}  {...p} />
-        ))
+        posts.length > 0 ?
+          posts.map((p) => (
+            <PostCard key={p._id}  {...p} />
+          )) : <Box sx={{
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <Typography variant='h5'>
+              No Post By Your Followes 😟
+            </Typography>
+          </Box>
       }
     </Stack>
   </>)
@@ -90,7 +98,7 @@ const HomePage = () => {
         mx: 'auto'
       }}
     >
-      <HeaderTile user={user} />
+      <HeaderTile user={user} setOpenDialog={setOpenDialog} />
       <Paper sx={{
         mt: 3,
         height: '85%',
@@ -104,8 +112,8 @@ const HomePage = () => {
         {postsLoading ? <>
           {
             Array(2).fill("").map((item, idx) => (
-            <PostLoading postsLoading/>
-          ))
+              <PostLoading key={idx} postsLoading />
+            ))
           }
         </> :
           <PostList />

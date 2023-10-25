@@ -39,7 +39,7 @@ const ProfileMenu = () => {
         aria-controls={openMenu ? "profile-positioned-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={openMenu ? "true" : undefined}
-        alt={user.username}
+        alt={user.name}
         src={user.avatar.url}
         onClick={handleClick}
       />

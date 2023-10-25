@@ -14,6 +14,7 @@ const initialState = {
     allUsers: null,
     otherUser: null,
     followLoading: false,
+    resetSuccess: false
 };
 
 const userSlice = createSlice({
@@ -54,6 +55,29 @@ const userSlice = createSlice({
             })
             .addCase(getUserDetailsById.rejected, (state, action) => {
                 state.isLoading = false
+            })
+            .addCase(forgotPassword.pending, (state, action) => {
+                state.isLoading = true
+                state.resetSuccess = false
+            })
+            .addCase(forgotPassword.fulfilled, (state, action) => {
+                state.isLoading = false
+            })
+            .addCase(forgotPassword.rejected, (state, action) => {
+                state.isLoading = false
+            })
+            .addCase(resetPassword.pending, (state, action) => {
+                state.isLoading = true
+                state.resetSuccess = false
+            })
+            .addCase(resetPassword.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.resetSuccess = true
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.isLoading = false
+                state.resetSuccess = false
+
             })
     }
 
@@ -119,7 +143,7 @@ export function RegisterUser(formValues) {
             dispatch(
                 userSlice.actions.logIn({
                     isLoggedIn: true,
-                    user: data,
+                    user: data.user,
                 })
             );
             dispatch(
@@ -241,6 +265,32 @@ export const getUserDetailsById = createAsyncThunk('getUserDetailsById', async (
     } catch (error) {
         customLogger.error("postSlice#getUserDetailsById", "Error response", "", error)
         dispatch(showSnackbar({ severity: "error", message: "Error while Commenting" }));
+        throw new Error(error.message);
+    }
+});
+
+export const forgotPassword = createAsyncThunk('forgotPassword', async (email, { dispatch }) => {
+    try {
+        const { data } = await axios.post('/api/v1/password/forgot', { email });
+        customLogger.info("postSlice#forgotPassword", "successfully..","",data)
+        dispatch(showSnackbar({ severity: "success", message: data.message }));
+        return data;
+    } catch (error) {
+        customLogger.error("postSlice#forgotPassword", "Error response", "", error)
+        dispatch(showSnackbar({ severity: "error", message: error?.message ? error?.message : "Something went wrong" }));
+        throw new Error(error.message);
+    }
+});
+// Get User Details By ID
+export const resetPassword = createAsyncThunk('resetPassword', async ({ token, password }, { dispatch }) => {
+    try {
+        const { data } = await axios.put(`/api/v1/password/reset/${token}`, { password });
+        customLogger.info("postSlice#resetPassword", "successfully..")
+        dispatch(showSnackbar({ severity: "success", message: "Password Reset Successfull" }));
+        return data;
+    } catch (error) {
+        customLogger.error("postSlice#resetPassword", "Error response", "", error)
+        dispatch(showSnackbar({ severity: "error", message: "Something went wrong" }));
         throw new Error(error.message);
     }
 });
