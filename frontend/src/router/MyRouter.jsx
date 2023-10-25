@@ -11,6 +11,7 @@ import Inbox from '../pages/home/Inbox';
 import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
 import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import AccountEditPage from '../pages/home/AccountEditPage';
 
 
 const Loadable = (Component) => (props) => {
@@ -42,6 +43,7 @@ const MyRouter = () => {
           { path: '/inbox', element: <Inbox /> },
           { path: '/inbox/t/:chatId/:userId', element: <Inbox /> },
           { path: '/:username', element: <ProfilePage /> },
+          { path: '/accounts/edit', element: <AccountEditPage /> },
         ]
 
       },

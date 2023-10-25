@@ -14,7 +14,8 @@ const initialState = {
     allUsers: null,
     otherUser: null,
     followLoading: false,
-    resetSuccess: false
+    resetSuccess: false,
+    isUpdated: false,
 };
 
 const userSlice = createSlice({
@@ -77,7 +78,30 @@ const userSlice = createSlice({
             .addCase(resetPassword.rejected, (state, action) => {
                 state.isLoading = false
                 state.resetSuccess = false
-
+            })
+            .addCase(updateProfile.pending, (state, action) => {
+                state.isLoading = true
+                state.isUpdated = false
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isUpdated = action.payload
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.isLoading = false
+                state.isUpdated = false
+            })
+            .addCase(loadUser.pending, (state, action) => {
+                state.isLoading = true
+                state.isUpdated = false //setting to false on user load request
+            })
+            .addCase(loadUser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.user = action.payload.user
+                state.isUpdated = action.payload
+            })
+            .addCase(loadUser.rejected, (state, action) => {
+                state.isLoading = false
             })
     }
 
@@ -272,7 +296,7 @@ export const getUserDetailsById = createAsyncThunk('getUserDetailsById', async (
 export const forgotPassword = createAsyncThunk('forgotPassword', async (email, { dispatch }) => {
     try {
         const { data } = await axios.post('/api/v1/password/forgot', { email });
-        customLogger.info("postSlice#forgotPassword", "successfully..","",data)
+        customLogger.info("postSlice#forgotPassword", "successfully..", "", data)
         dispatch(showSnackbar({ severity: "success", message: data.message }));
         return data;
     } catch (error) {
@@ -281,7 +305,7 @@ export const forgotPassword = createAsyncThunk('forgotPassword', async (email, {
         throw new Error(error.message);
     }
 });
-// Get User Details By ID
+
 export const resetPassword = createAsyncThunk('resetPassword', async ({ token, password }, { dispatch }) => {
     try {
         const { data } = await axios.put(`/api/v1/password/reset/${token}`, { password });
@@ -291,6 +315,30 @@ export const resetPassword = createAsyncThunk('resetPassword', async ({ token, p
     } catch (error) {
         customLogger.error("postSlice#resetPassword", "Error response", "", error)
         dispatch(showSnackbar({ severity: "error", message: "Something went wrong" }));
+        throw new Error(error.message);
+    }
+});
+export const updateProfile = createAsyncThunk('updateProfile', async (userData, { dispatch }) => {
+    try {
+        const { data } = await axios.put('/api/v1/update/profile', userData);
+        customLogger.info("postSlice#updateProfile", "successfull")
+        dispatch(showSnackbar({ severity: "success", message: "Successfully updated profile" }));
+        dispatch(loadUser())
+        return data;
+    } catch (error) {
+        customLogger.error("postSlice#updateProfile", "Error response", "", error)
+        dispatch(showSnackbar({ severity: "error", message: "Something went wrong" }));
+        throw new Error(error.message);
+    }
+});
+export const loadUser = createAsyncThunk('loadUser', async (optional = false, { dispatch }) => {
+    try {
+        const { data } = await axios.get('/api/v1/me'); customLogger.info("postSlice#updateProfile", "successfull")
+        customLogger.info("postSlice#loadUser", "successfull")
+        return data;
+    } catch (error) {
+        customLogger.error("postSlice#loadUser", "Error response", "", error)
+        dispatch(showSnackbar({ severity: "error", message: "Error while loading User" }));
         throw new Error(error.message);
     }
 });

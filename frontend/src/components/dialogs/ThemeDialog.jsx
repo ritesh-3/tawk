@@ -33,9 +33,8 @@ const ThemeDialog = ({ open, handleClose }) => {
   const onApply = (event) => {
     if (selectedTheme) onChangeMode(selectedTheme);
     //Added timer to delay state change for fixing theme color not changing issue
-    setTimeout(() => {
+
       if (selectedColor) onChangeColor(selectedColor);
-    }, 100);
     handleClose();
     event.preventDefault();
   }

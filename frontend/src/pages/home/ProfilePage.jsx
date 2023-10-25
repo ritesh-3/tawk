@@ -63,6 +63,10 @@ const ProfilePage = () => {
         dispatch(addNewChat(otherUser._id))
     }
 
+    const hanldeEditClick = () => {
+        navigate('/accounts/edit')
+    }
+
     useEffect(() => {
         if (newChat) {
             const friendId = newChat.users?.find((id) => id !== user._id);
@@ -101,10 +105,12 @@ const ProfilePage = () => {
                                     <Typography variant='h4'>{otherUser.username}</Typography>
                                     {
                                         user._id === otherUser._id ?
-                                            <Button sx={{
-                                                color: "common.white",
-                                                background: theme.palette.primary
-                                            }} variant='contained' >Edit Profile</Button> :
+                                            <Button
+                                                onClick={hanldeEditClick}
+                                                sx={{
+                                                    color: "common.white",
+                                                    background: theme.palette.primary
+                                                }} variant='contained' >Edit Profile</Button> :
                                             <>
                                                 {follow ?
                                                     <Stack direction={'row'} spacing={1}>

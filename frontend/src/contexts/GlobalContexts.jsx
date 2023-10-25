@@ -32,20 +32,34 @@ const GlobalContextProvider = ({ children }) => {
         themeColorPresets: initialState.themeColorPresets,
     });
 
+    // const onToggleMode = () => {
+    //     setSettings({
+    //         ...settings,
+    //         themeMode: settings.themeMode === "light" ? "dark" : "light",
+    //     });
+    // };
+
+    // // Color
+
+    // const onChangeColor = (value) => {
+    //     setSettings({
+    //         ...settings,
+    //         themeColorPresets: value,
+    //     });
+    // };
+
     const onToggleMode = () => {
-        setSettings({
-            ...settings,
-            themeMode: settings.themeMode === "light" ? "dark" : "light",
-        });
+        setSettings((prevSettings) => ({
+            ...prevSettings,
+            themeMode: prevSettings.themeMode === "light" ? "dark" : "light",
+        }));
     };
 
-    // Color
-
     const onChangeColor = (value) => {
-        setSettings({
-            ...settings,
+        setSettings((prevSettings) => ({
+            ...prevSettings,
             themeColorPresets: value,
-        });
+        }));
     };
 
     const onChangeMode = (value) => {

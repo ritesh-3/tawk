@@ -203,9 +203,10 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
     if (req.body.avatar !== "") {
         const user = await User.findById(req.user._id);
 
-        const imageId = user.avatar.public_id;
-
-        await cloudinary.v2.uploader.destroy(imageId);
+        if (user && user.avatar && user.avatar.public_id) {
+            const imageId = user.avatar.public_id;
+            await cloudinary.v2.uploader.destroy(imageId);
+        }
 
         const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
             folder: "tawk/avatars",
