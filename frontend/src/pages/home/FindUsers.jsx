@@ -80,7 +80,7 @@ const UserCard = ({ user }) => {
 const NoUsersFoundMessage = () => {
   return (
     <Box
-      style={{
+      sx={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

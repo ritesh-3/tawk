@@ -23,6 +23,17 @@ export function randomID(len) {
 export const formatChatTime = (timestamp) => {
     const msgDate = new Date(timestamp);
     const currentDate = new Date();
+    const timeDifference = (currentDate - msgDate) / 60000; // Calculate the time difference in minutes
+
+    // Check if the message was sent "just now" (within a minute)
+    if (timeDifference < 1) {
+        return 'just now';
+    }
+
+    // Check if the message was sent within the last 10 minutes
+    if (timeDifference < 10) {
+        return `${Math.floor(timeDifference)} minutes ago`;
+    }
 
     // Check if the message date is today
     if (
@@ -30,7 +41,7 @@ export const formatChatTime = (timestamp) => {
         msgDate.getMonth() === currentDate.getMonth() &&
         msgDate.getFullYear() === currentDate.getFullYear()
     ) {
-        return msgDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        return `Today, ${msgDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
     }
 
     // Check if the message date is yesterday

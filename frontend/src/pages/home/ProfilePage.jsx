@@ -27,6 +27,9 @@ const ProfilePage = () => {
     const navigate = useNavigate()
     useEffect(() => {
         dispatch(getUserDetails(params.username))
+        //reset dialog flags
+        setOpenModal(false);
+        setOpenPostDialog(false);
     }, [params])
 
     useEffect(() => {

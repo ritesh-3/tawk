@@ -42,7 +42,7 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
 
     const handleLike = async () => {
         setLiked(!liked);
-        dispatch(likePost(_id));
+       await dispatch(likePost(_id));
         const { data } = await axios.get(`/api/v1/post/detail/${_id}`)
         setAllLikes(data.post.likes)
     }

@@ -23,7 +23,7 @@ const UserListItem = ({ _id, avatar, username, name, followers }) => {
   }, [user])
 
   return (
-    <Stack direction='row' padding={4} width='100%' justifyContent={'space-between'}>
+    <Stack direction='row' paddingX={4} paddingY={1.5} width='100%' justifyContent={'space-between'}>
       <Stack direction='row' spacing={3} alignItems='center'>
         <Avatar src={avatar.url} />
         <Box>
@@ -57,7 +57,7 @@ const FollowersDialog = ({ open, onClose, title, userList }) => {
       onClose={onClose}
       TransitionComponent={Transition}
     >
-      <Stack alignItems='center' justifyContent='center' >
+      <Stack alignItems='center' justifyContent='center'  >
         <Typography padding={2} variant='h6'>
           {title}
         </Typography>
