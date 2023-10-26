@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { Routes, Route, useRoutes } from 'react-router-dom';
+import { Routes, Route, useRoutes, Navigate } from 'react-router-dom';
 import AuthLayout from '../layouts/auth/AuthLayout';
 import LoginPage from '../pages/auth/LoginPage';
 import MainLayout from '../layouts/main/MainLayout';
@@ -38,6 +38,7 @@ const MyRouter = () => {
         path: '/',
         element: <MainLayout />,
         children: [
+          { element: <Navigate to="/app" replace />, index: true },
           { path: '/app', element: <HomePage /> },
           { path: '/users', element: <FindUsers /> },
           { path: '/inbox', element: <Inbox /> },

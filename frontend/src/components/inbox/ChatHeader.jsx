@@ -62,8 +62,8 @@ const ChatHeader = ({ user, online }) => {
                 <StyledBadge
                     overlap="circular"
                     anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "top",
+                        vertical: "top",
+                        horizontal: "left",
                     }}
                     online={online}
                 >

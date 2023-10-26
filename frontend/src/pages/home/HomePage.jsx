@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
 import PostLoading from '../../components/loader/PostLoading'
 import PostCard from '../../components/post/PostCard'
+import { UpdateTab } from '../../redux/slices/app'
 
 const HeaderTile = ({ user, setOpenDialog }) => {
   const theme = useTheme();
@@ -62,18 +63,36 @@ const PostList = () => {
         posts.length > 0 ?
           posts.map((p) => (
             <PostCard key={p._id}  {...p} />
-          )) : <Box sx={{
-            display: 'flex',
-            justifyContent: 'center'
-          }}>
-            <Typography variant='h5'>
-              No Post By Your Followes 😟
-            </Typography>
-          </Box>
+          )) :
+          <NoPostsMessage />
       }
     </Stack>
   </>)
 }
+
+const NoPostsMessage = () => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '60vh',
+        justifyContent: 'center',
+        textAlign: 'center',
+      }}
+    >
+      <Typography variant='h5' sx={{ marginBottom: 2 }}>
+        Oops! It's quiet in here 🤫
+      </Typography>
+      <Typography variant='body1'>
+        Your followers haven't shared any posts yet. Be the first to inspire them!
+      </Typography>
+    </Box>
+  );
+};
+
+
 
 const HomePage = () => {
   const [openDialog, setOpenDialog] = useState(false)
@@ -84,6 +103,7 @@ const HomePage = () => {
 
   useEffect(() => {
     dispatch(getPostsOfFollowing());
+    dispatch(UpdateTab({ tab: 0 }))
     if (success) {
       setOpenDialog(false);
     }

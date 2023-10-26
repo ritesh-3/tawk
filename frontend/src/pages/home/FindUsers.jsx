@@ -67,7 +67,7 @@ const UserCard = ({ user }) => {
         src={user.avatar.url}
         alt={user.name}
         sx={{
-          mr:2,
+          mr: 2,
           width: isDesktop ? '100px' : "80px",
           height: isDesktop ? '100px' : "80px",
         }}
@@ -76,6 +76,29 @@ const UserCard = ({ user }) => {
 
   )
 }
+
+const NoUsersFoundMessage = () => {
+  return (
+    <Box
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '80%',
+      }}
+    >
+      <Typography variant="h4" color="textSecondary">
+        No users found for your search
+      </Typography>
+      <Typography variant="body1" color="textSecondary">
+        "Sometimes the right people are just a click away. Keep searching!"
+      </Typography>
+    </Box>
+  );
+};
+
+
 
 const FindUsers = () => {
 
@@ -124,9 +147,9 @@ const FindUsers = () => {
             <>
               {filteredUsers && filteredUsers.length > 0 ? filteredUsers.map((item, idx) => (
                 <UserCard key={idx} user={item} />
-              )) : <Box sx={{ textAlign: 'center', marginTop: "24px" }}>
-                <Typography variant='body1'>No Users Found</Typography>
-              </Box>
+              )) :
+
+                <NoUsersFoundMessage />
               }
             </>
           }

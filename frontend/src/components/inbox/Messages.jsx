@@ -43,10 +43,10 @@ const Messages = ({ messages, user, otherUser }) => {
         <Stack spacing={3} paddingX={2} >
             {
                 messages && messages.map((msg, idx) => (
-                    <>
-                        <TextMsg key={idx} ownMsg={msg.sender === user._id} {...otherUser} {...msg} />
+                    <Box key={idx}>
+                        <TextMsg ownMsg={msg.sender === user._id} {...otherUser} {...msg} />
                         <div style={{ marginBottom: 1 }} ref={scrollRef}></div>
-                    </>
+                    </Box>
                 ))
             }
         </Stack>

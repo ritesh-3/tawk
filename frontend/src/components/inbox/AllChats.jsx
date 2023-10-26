@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useResponsive from '../../hooks/useResponsive';
 import { Box, Divider, Stack, TextField, Typography, styled, useTheme } from '@mui/material';
 import {
@@ -22,9 +22,22 @@ const StyledInput = styled(TextField)(({ theme }) => ({
 
 const AllChats = () => {
     const isDesktop = useResponsive("up", "md");
-    const [searchQuery, setsearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState('')
+    const [filteredChats, setfilteredChats] = useState([]);
     const { chats, chatsLoading } = useSelector(state => state.inbox)
     const theme = useTheme();
+
+    useEffect(() => {
+        // Filter chats based on searchQuery
+        const filteredChats = chats.filter((chat) => {
+            const usernames = chat.users.map((user) => user.username);
+            return usernames.some((username) =>
+                username.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        });
+        setfilteredChats(filteredChats);
+    }, [searchQuery, chats]);
+
     return (
         <Box
             sx={{
@@ -47,33 +60,11 @@ const AllChats = () => {
                 >
                     <Typography variant="h5">Chats</Typography>
 
-                    {/* <Stack direction={"row"} alignItems="center" spacing={1}>
-                        <IconButton
-                            onClick={() => {
-                                handleOpenDialog();
-                            }}
-                            sx={{ width: "max-content" }}
-                        >
-                            <Users />
-                        </IconButton>
-                    </Stack> */}
                 </Stack>
-                {/* <Stack sx={{ width: "100%" }}>
-                    <Search>
-                        <SearchIconWrapper>
-                            <MagnifyingGlass color="#709CE6" />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            onChange={(e) => setsearchQuery(e.target.value)}
-                            placeholder="Search…"
-                            inputProps={{ "aria-label": "search" }}
-                        />
-                    </Search>
-                </Stack> */}
                 <StyledInput
                     value={searchQuery}
                     onChange={(event) => {
-                        searchQuery(event.target.value);
+                        setSearchQuery(event.target.value);
                     }}
                     fullWidth
                     placeholder="Search..."
@@ -96,7 +87,7 @@ const AllChats = () => {
                         </> :
 
                             <>
-                                {chats.length > 0 && chats.map((el, idx) => {
+                                {filteredChats.length > 0 && filteredChats.map((el, idx) => {
                                     return <ChatElement {...el} key={idx} />;
                                 })}
                             </>

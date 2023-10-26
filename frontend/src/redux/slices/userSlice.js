@@ -133,7 +133,7 @@ export function LoginUser(formValues) {
                 }
             )
             .then(function (response) {
-                customLogger.info("LogginUser sucess", "userSlice#LoginUser", "", response)
+               // customLogger.info("LogginUser sucess", "userSlice#LoginUser", "", response.data)
                 dispatch(
                     userSlice.actions.logIn({
                         isLoggedIn: true,

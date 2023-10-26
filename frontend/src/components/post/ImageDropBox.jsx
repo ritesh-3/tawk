@@ -45,11 +45,12 @@ const ImageDropBox = ({ onImageUpload }) => {
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             maxHeight='450px'
+
             sx={{
                 border: `2px dashed ${selectedImage ? 'transparent' : '#ced4da'}`,
                 backgroundColor: theme.palette.background.default,
                 cursor: 'pointer',
-                minHeight: '200px',
+                minHeight: '300px',
                 padding: '20px',
             }}
         >

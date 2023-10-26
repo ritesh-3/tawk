@@ -11,6 +11,7 @@ import PostDialog from '../../components/dialogs/PostDialog';
 import PostLoading from '../../components/loader/PostLoading';
 import ChatLoader from '../../components/loader/ChatLoader';
 import { addNewChat } from '../../redux/slices/inbox';
+import { UpdateTab } from '../../redux/slices/app';
 
 const ProfilePage = () => {
     const params = useParams();
@@ -75,7 +76,7 @@ const ProfilePage = () => {
     }, [newChat])
 
     return (
-        <> {otherUser ? (
+        <> {(otherUser || isLoading) ? (
             // Profile Header
             <Box
                 sx={{
@@ -156,32 +157,11 @@ const ProfilePage = () => {
                     <Box sx={{ height: "50%", width: "50%" }}>
                         <PostLoading loading={isLoading} />
                     </Box> :
-                    <>
-                        {otherUser.posts.length > 0 ?
-                            <ImageList cols={3} >
-                                {otherUser.posts.map((item, idx) => (
-                                    <ImageListItem key={idx}>
-                                        <img onClick={() => handlePostClick(item)}
-                                            // srcSet={`${item.image.url}?w=200&h=200&fit=crop&auto=format&dpr=2 2x`}
-                                            src={`${item.image.url}?w=300&h=300&fit=crop&auto=format`}
-                                            alt={item.title}
-                                            loading="lazy"
-                                        />
-                                    </ImageListItem>
-                                ))}
-                            </ImageList> :
-                            <Stack spacing={4} justifyContent='center' alignItems='center' direction='row' width="100%">
-                                <img src="/assets/images/noPosts.jpg" alt="NO Posts" height={isDesktop ? 300 : 200} />
-                                <Typography variant='subtitle2'>
-                                    Start capturing and sharing your moments.
-                                </Typography>
-                            </Stack>
-                        }
-                    </>
+                    <Posts otherUser={otherUser} handlePostClick={handlePostClick} />
                 }
             </Box >
         ) : (
-            <Typography variant='h4'>User Not Found</Typography>
+            <NotFoundProfile />
         )}
             {openModal && <FollowersDialog
                 open={true}
@@ -198,3 +178,66 @@ const ProfilePage = () => {
 
 
 export default ProfilePage;
+
+const NotFoundProfile = () => {
+    const naviagte = useNavigate()
+    const dispacth = useDispatch();
+
+    const handleExporeClick = () => {
+        naviagte('/users')
+        dispacth(UpdateTab({ tab: 1 }))
+    }
+    return (
+        <Stack
+            sx={{ width: "100%" }}
+            justifyContent={'center'}
+            spacing={2}
+            alignItems={'center'}
+        >
+            <Typography variant="h4" color="primary">
+                Oops, this profile doesn't exist!
+            </Typography>
+            <Typography variant="body1" color="textSecondary">
+                But don't worry, you can explore other interesting profiles.
+            </Typography>
+            {/* <img
+                src="https://example.com/fun-image.png"
+                alt="Fun Image"
+                style={funImageStyle}
+            /> */}
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={handleExporeClick}
+            >
+                Explore Profiles
+            </Button>
+        </Stack>
+    );
+};
+
+const Posts = ({ otherUser, handlePostClick }) => {
+    const isDesktop = useResponsive("up", "md");
+    return <>
+        {otherUser.posts.length > 0 ?
+            <ImageList cols={3} >
+                {otherUser.posts.map((item, idx) => (
+                    <ImageListItem key={idx}>
+                        <img onClick={() => handlePostClick(item)}
+                            // srcSet={`${item.image.url}?w=200&h=200&fit=crop&auto=format&dpr=2 2x`}
+                            src={`${item.image.url}?w=300&h=300&fit=crop&auto=format`}
+                            alt={item.title}
+                            loading="lazy"
+                        />
+                    </ImageListItem>
+                ))}
+            </ImageList> :
+            <Stack spacing={4} justifyContent='center' alignItems='center' direction='row' width="100%">
+                <img src="/assets/images/noPosts.jpg" alt="NO Posts" height={isDesktop ? 300 : 200} />
+                <Typography variant='subtitle2'>
+                    Start capturing and sharing your moments.
+                </Typography>
+            </Stack>
+        }
+    </>
+}
