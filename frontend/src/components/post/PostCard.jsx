@@ -50,10 +50,11 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
 
     //To update the comments on successfull addition
     useEffect(() => {
-        axios.get(`/api/v1/post/detail/${_id}`).then(
-            resp => setAllComments(resp.data.post.comments)
-        )
-
+        if (commentSuccess) {
+            axios.get(`/api/v1/post/detail/${_id}`).then(
+                resp => setAllComments(resp.data.post.comments)
+            )
+        }
     }, [commentSuccess])
 
 
@@ -121,9 +122,12 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
                 <Typography variant="body2" color="text.secondary" >{allLikes.length} Likes</Typography>
                 <Typography variant="body2" color="text.secondary" >{allComments.length} Comments</Typography>
             </Stack>
-            <Box sx={{ p: 1 }}>
-                <PostComment postId={_id} />
-            </Box>
+            {
+                !expanded && (
+                    <Box sx={{ p: 1 }}>
+                        <PostComment postId={_id} />
+                    </Box>)
+            }
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Comments comments={allComments} />

@@ -8,6 +8,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import PostLoading from '../../components/loader/PostLoading'
 import PostCard from '../../components/post/PostCard'
 import { UpdateTab } from '../../redux/slices/app'
+import useResponsive from '../../hooks/useResponsive'
 
 const HeaderTile = ({ user, setOpenDialog }) => {
   const theme = useTheme();
@@ -58,7 +59,7 @@ const PostList = () => {
   const { posts, totalPosts } = useSelector(state => state.posts)
 
   return (<>
-    <Stack spacing={2} >
+    <Stack p={1} spacing={2} >
       {
         posts.length > 0 ?
           posts.map((p) => (
@@ -99,6 +100,7 @@ const HomePage = () => {
   const { user } = useSelector(state => state.user)
   const { success, postsLoading, posts, totalPosts } = useSelector(state => state.posts)
   const theme = useTheme();
+  const isDesktop = useResponsive("up", "md");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -114,18 +116,20 @@ const HomePage = () => {
       sx={{
         maxWidth: '600px',
         width: '100%',
-        height: '100vh',
-        mx: 'auto'
+        height: '100%',
+        mx: 'auto',
+        display:'flex',
+        flexDirection:'column'
       }}
     >
       <HeaderTile user={user} setOpenDialog={setOpenDialog} />
       <Paper
-
         sx={{
-          pr: 2,
-          mt: 3,
-          height: '85%',
+          pr: isDesktop ? 2 : 0,
+          mt: 2,
+          height: '100%',
           overflowY: 'scroll',
+          flexGrow: 1,
           background: theme.palette.mode === "light"
             ? ""
             : theme.palette.background.default,

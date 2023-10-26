@@ -16,6 +16,7 @@ const initialState = {
     followLoading: false,
     resetSuccess: false,
     isUpdated: false,
+    chatUser:null, //it will have less details
 };
 
 const userSlice = createSlice({
@@ -51,7 +52,7 @@ const userSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(getUserDetailsById.fulfilled, (state, action) => {
-                state.otherUser = action.payload.user
+                state.chatUser = action.payload.user
                 state.isLoading = false
             })
             .addCase(getUserDetailsById.rejected, (state, action) => {

@@ -29,10 +29,9 @@ const BottomNav = () => {
             sx={{
                 // height: "100vh",
                 zIndex: 10,
-                position: "absolute",
+                position: "block",
                 bottom: 0,
                 width: "100vw",
-
                 backgroundColor: theme.palette.background.paper,
                 boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
             }}

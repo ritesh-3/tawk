@@ -11,7 +11,7 @@ import ChatFooter from './ChatFooter';
 
 const Conversation = ({ socket }) => {
     const { userId, chatId } = useParams();
-    const { otherUser, user } = useSelector((state) => state.user);
+    const { chatUser, user } = useSelector((state) => state.user);
     const { messages, messagesLoading } = useSelector((state) => state.inbox);
     const dispacth = useDispatch();
     const isDesktop = useResponsive("up", "md");
@@ -36,8 +36,8 @@ const Conversation = ({ socket }) => {
             maxHeight={"100vh"}
             width={!isDesktop ? "100vw" : "100%"}
         >
-            {otherUser &&
-                <ChatHeader online={online} user={otherUser} />
+            {chatUser &&
+                <ChatHeader online={online} user={chatUser} />
             }
             <Box
                 // ref={messageListRef}
@@ -46,6 +46,7 @@ const Conversation = ({ socket }) => {
                     position: "relative",
                     flexGrow: 1,
                     overflowY: "scroll",
+                    pb:1,
                     backgroundColor:
                         theme.palette.mode === "light"
                             ? "#F0F4FA"
@@ -63,7 +64,7 @@ const Conversation = ({ socket }) => {
                             Loading...
                         </Stack>
                     </> :
-                        <Messages otherUser={otherUser} user={user} messages={messages} />
+                        <Messages otherUser={chatUser} user={user} messages={messages} />
                 }
             </Box>
             <ChatFooter socket={socket} />

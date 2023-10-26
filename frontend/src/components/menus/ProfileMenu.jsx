@@ -77,7 +77,7 @@ const ProfileMenu = () => {
                     }
                     else {
                       dispatch(LogOut());
-                      navigate('/')
+                      navigate('/auth/login')
                     }
                   }}
                   sx={{ width: 100 }}

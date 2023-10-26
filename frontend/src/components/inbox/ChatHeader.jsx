@@ -60,7 +60,12 @@ const ChatHeader = ({ user, online }) => {
                     : theme.palette.background.paper,
             }}
         >
-            <Box>
+            <Stack direction={"row"} spacing={0.5}>
+                {!isDesktop &&
+                    <IconButton  onClick={handleBack}>
+                        <ArrowLeft />
+                    </IconButton>
+                }
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
                     <StyledBadge
                         overlap="circular"
@@ -68,7 +73,7 @@ const ChatHeader = ({ user, online }) => {
                             vertical: "bottom",
                             horizontal: "right",
                         }}
-                        online={online}
+                        online={true}
                         variant="dot"
                     >
                         <Avatar src={user.avatar.url} />
@@ -78,13 +83,12 @@ const ChatHeader = ({ user, online }) => {
                         <Typography >{user.name}</Typography>
                     </Box>
                 </Stack>
-            </Box>
+            </Stack>
 
-            <IconButton color='primary' onClick={handleBack}>
-                {
-                    (userId && !isDesktop) ? <ArrowLeft /> :
-                        <DotsThreeOutlineVertical />
-                }
+            <IconButton color='primary' >
+
+                <DotsThreeOutlineVertical />
+
             </IconButton>
         </Stack>
     )

@@ -28,6 +28,9 @@ const SideNav = () => {
     return (
         <Box
             sx={{
+                // position: 'absolute',
+                // left: 0,
+                // top: 0,
                 height: "100vh",
                 width: 100,
                 backgroundColor:
