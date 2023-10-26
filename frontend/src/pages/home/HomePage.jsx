@@ -119,15 +119,18 @@ const HomePage = () => {
       }}
     >
       <HeaderTile user={user} setOpenDialog={setOpenDialog} />
-      <Paper sx={{
-        mt: 3,
-        height: '85%',
-        overflowY: 'scroll',
-        background: theme.palette.mode === "light"
-          ? ""
-          : theme.palette.background.default,
+      <Paper
 
-      }}
+        sx={{
+          pr: 2,
+          mt: 3,
+          height: '85%',
+          overflowY: 'scroll',
+          background: theme.palette.mode === "light"
+            ? ""
+            : theme.palette.background.default,
+
+        }}
       >
         {postsLoading ? <>
           {

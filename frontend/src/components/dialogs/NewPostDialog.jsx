@@ -5,6 +5,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import ImageDropBox from '../post/ImageDropBox';
 import { showSnackbar } from '../../redux/slices/app';
 import { addNewPost } from '../../redux/slices/postSlice';
+import { optimizeImage } from '../../utils/utils';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -29,9 +30,10 @@ const NewPostDialog = ({ open, onClose }) => {
     const handleImage = (files) => {
         if (files) {
             const reader = new FileReader();
-            reader.onload = () => {
+            reader.onload = async () => {
                 if (reader.readyState === 2) {
-                    setSelctedImage(reader.result)
+                    const optimizedImage = await optimizeImage(reader.result);
+                    setSelctedImage(optimizedImage)
                 }
             };
             reader.readAsDataURL(files[0]);
