@@ -93,62 +93,66 @@ const ProfilePage = () => {
                 {/* Header section of Profile */}
                 {isLoading ? <ChatLoader loading={isLoading} /> :
                     <>
-                        <Stack alignItems='center' justifyContent='center' spacing={5} direction='row'>
-                            <Avatar sx={{
-                                width: isDesktop ? 150 : 80,
-                                height: isDesktop ? 150 : 80,
-                            }}
-                                src={otherUser.avatar.url}
-                                alt={otherUser.name}
-                            />
-                            <Stack spacing={2} >
-                                <Stack spacing={isDesktop ? 6 : 2} direction='row'>
-                                    <Typography variant='h4'>{otherUser.username}</Typography>
-                                    {
-                                        user._id === otherUser._id ?
-                                            <Button
-                                                onClick={hanldeEditClick}
-                                                sx={{
-                                                    color: "common.white",
-                                                    background: theme.palette.primary
-                                                }} variant='contained' >Edit Profile</Button> :
-                                            <>
-                                                {follow ?
-                                                    <Stack direction={'row'} spacing={1}>
-                                                        <LoadingButton loading={addNewChatLoading} onClick={handleAddNewChat} variant='outlined' sx={{ fontSize: 'small', fontWeight: 500, background: theme.palette.primary, }}>Message</LoadingButton>
-                                                        <LoadingButton loading={followLoading} onClick={() => handleFollow(otherUser._id)} variant='contained'
-                                                            sx={{
-                                                                fontSize: 'small',
-                                                                fontWeight: 500,
-                                                                background: theme.palette.primary.main,
-                                                                color: "common.white",
-                                                            }}>
-                                                            UnFollow</LoadingButton>
-                                                    </Stack> :
-                                                    <LoadingButton loading={followLoading} onClick={() => handleFollow(otherUser._id)} variant='contained'
+                        {
+                            otherUser && (
+                                <Stack alignItems='center' justifyContent='center' spacing={5} direction='row'>
+                                    <Avatar sx={{
+                                        width: isDesktop ? 150 : 80,
+                                        height: isDesktop ? 150 : 80,
+                                    }}
+                                        src={otherUser.avatar.url}
+                                        alt={otherUser.name}
+                                    />
+                                    <Stack spacing={2} >
+                                        <Stack spacing={isDesktop ? 6 : 2} direction='row'>
+                                            <Typography variant='h4'>{otherUser.username}</Typography>
+                                            {
+                                                user._id === otherUser._id ?
+                                                    <Button
+                                                        onClick={hanldeEditClick}
                                                         sx={{
-                                                            fontSize: 'small',
-                                                            fontWeight: 500,
-                                                            background: theme.palette.primary.main,
                                                             color: "common.white",
-                                                        }}
-                                                    >Follow</LoadingButton>
-                                                }
-                                            </>
-                                    }
-                                </Stack>
-                                <Stack justifyContent='center' alignItems='center' spacing={isDesktop ? 6 : 2} direction={'row'}>
-                                    <Typography>{otherUser.posts.length} {"  "}posts</Typography>
-                                    <Typography >{otherUser.following.length}  {"  "} <span style={{ cursor: 'pointer' }} onClick={handleFollowingModal}> following</span></Typography>
-                                    <Typography>{otherUser.followers.length} {"  "} <span style={{ cursor: 'pointer' }} onClick={handleFollowersModal}>followers</span> </Typography>
+                                                            background: theme.palette.primary
+                                                        }} variant='contained' >Edit Profile</Button> :
+                                                    <>
+                                                        {follow ?
+                                                            <Stack direction={'row'} spacing={1}>
+                                                                <LoadingButton loading={addNewChatLoading} onClick={handleAddNewChat} variant='outlined' sx={{ fontSize: 'small', fontWeight: 500, background: theme.palette.primary, }}>Message</LoadingButton>
+                                                                <LoadingButton loading={followLoading} onClick={() => handleFollow(otherUser._id)} variant='contained'
+                                                                    sx={{
+                                                                        fontSize: 'small',
+                                                                        fontWeight: 500,
+                                                                        background: theme.palette.primary.main,
+                                                                        color: "common.white",
+                                                                    }}>
+                                                                    UnFollow</LoadingButton>
+                                                            </Stack> :
+                                                            <LoadingButton loading={followLoading} onClick={() => handleFollow(otherUser._id)} variant='contained'
+                                                                sx={{
+                                                                    fontSize: 'small',
+                                                                    fontWeight: 500,
+                                                                    background: theme.palette.primary.main,
+                                                                    color: "common.white",
+                                                                }}
+                                                            >Follow</LoadingButton>
+                                                        }
+                                                    </>
+                                            }
+                                        </Stack>
+                                        <Stack justifyContent='center' alignItems='center' spacing={isDesktop ? 6 : 2} direction={'row'}>
+                                            <Typography>{otherUser.posts.length} {"  "}posts</Typography>
+                                            <Typography >{otherUser.following.length}  {"  "} <span style={{ cursor: 'pointer' }} onClick={handleFollowingModal}> following</span></Typography>
+                                            <Typography>{otherUser.followers.length} {"  "} <span style={{ cursor: 'pointer' }} onClick={handleFollowersModal}>followers</span> </Typography>
 
+                                        </Stack>
+                                        <Typography >{otherUser.name}</Typography>
+                                        <Typography variant='caption'>
+                                            {otherUser.bio}
+                                        </Typography>
+                                    </Stack>
                                 </Stack>
-                                <Typography >{otherUser.name}</Typography>
-                                <Typography variant='caption'>
-                                    {otherUser.bio}
-                                </Typography>
-                            </Stack>
-                        </Stack>
+                            )
+                        }
                     </>
                 }
                 <Divider sx={{ my: 3 }} />

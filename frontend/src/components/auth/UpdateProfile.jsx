@@ -14,6 +14,7 @@ import MyFormProvider from "../forms/MyFormProvider";
 import RHFTextField from "../forms/RHFTextField";
 import { RegisterUser, loadUser, updateProfile } from "../../redux/slices/userSlice";
 import { RHFUploadAvatar } from "../forms/RHFUpload";
+import { optimizeImage } from "../../utils/utils";
 // import { RegisterUser } from "../../redux/slices/auth";
 
 // ----------------------------------------------------------------------
@@ -74,9 +75,10 @@ export default function UpdateProfileForm() {
             });
             // converting image into reader string as our api accept string only
             const reader = new FileReader();
-            reader.onload = () => {
+            reader.onload = async () => {
                 if (reader.readyState === 2) {
-                    setSelctedImage(reader.result)
+                    const optimizedImage = await optimizeImage(reader.result);
+                    setSelctedImage(optimizedImage)
                 }
             };
             reader.readAsDataURL(file);
