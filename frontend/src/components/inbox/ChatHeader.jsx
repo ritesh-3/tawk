@@ -8,8 +8,10 @@ const StyledBadge = styled(Badge)(({ theme, online }) => ({
         backgroundColor: "#44b700",
         color: "#44b700",
         minWidth: '0px',
-        height: '12px',
-        display: online ? 'block':'none',
+        height: '10px',
+        display: online ? 'block' : 'none',
+        // left: '-5px',
+        // bottom:'10px',
         boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
         "&::after": {
             position: "absolute",
@@ -59,22 +61,23 @@ const ChatHeader = ({ user, online }) => {
             }}
         >
             <Box>
-                <StyledBadge
-                    overlap="circular"
-                    anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                    }}
-                    online={online}
-                >
-                    <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                    <StyledBadge
+                        overlap="circular"
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "right",
+                        }}
+                        online={online}
+                        variant="dot"
+                    >
                         <Avatar src={user.avatar.url} />
-                        <Box>
-                            <Link component={RouterLink} to={`/${user.username}`} >{user.username}</Link>
-                            <Typography >{user.name}</Typography>
-                        </Box>
-                    </Stack>
-                </StyledBadge>
+                    </StyledBadge>
+                    <Box>
+                        <Link component={RouterLink} to={`/${user.username}`} >{user.username}</Link>
+                        <Typography >{user.name}</Typography>
+                    </Box>
+                </Stack>
             </Box>
 
             <IconButton color='primary' onClick={handleBack}>

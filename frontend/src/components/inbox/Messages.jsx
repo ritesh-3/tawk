@@ -5,7 +5,7 @@ import { formatChatTime } from '../../utils/utils';
 const TextMsg = ({ ownMsg, avatar, content, createdAt }) => {
     const theme = useTheme();
     return (
-        <Stack direction="row" justifyContent={ownMsg ? "start" : "end"}>
+        <Stack direction="row" justifyContent={ownMsg ? "end" : "start"}>
             <Box
                 px={1.5}
                 py={1.5}
