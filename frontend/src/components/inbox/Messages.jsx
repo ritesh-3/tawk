@@ -10,7 +10,7 @@ const TextMsg = ({ ownMsg, avatar, content, createdAt }) => {
                 px={1.5}
                 py={1.5}
                 sx={{
-                    backgroundColor: ownMsg
+                    backgroundColor: !ownMsg
                         ? theme.palette.background.paper
                         : theme.palette.primary.main,
                     borderRadius: 1.5,
