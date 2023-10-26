@@ -174,7 +174,7 @@ const ProfilePage = () => {
                 title={openModal}
             />}
             {openPostDialog &&
-                <PostDialog open={openPostDialog} onClose={handlePostClose} selectedPost={selectedPost} />
+                <PostDialog open={openPostDialog} onClose={handlePostClose} selectedPost={selectedPost} setOpenPostDialog={setOpenPostDialog} />
             }
         </>
     );

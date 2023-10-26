@@ -128,10 +128,10 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
                         <PostComment postId={_id} />
                     </Box>)
             }
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
+            <Collapse sx={{my:1}} in={expanded} timeout="auto" unmountOnExit>
+                {/* <CardContent> */}
                     <Comments comments={allComments} />
-                </CardContent>
+                {/* </CardContent> */}
             </Collapse>
         </Card >
     );
