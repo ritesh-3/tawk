@@ -32,9 +32,7 @@ export default function UpdateProfileForm() {
         username: user.username,
         bio: user.bio,
         email: user.email,
-        avatar: {
-            preview: user?.avatar?.url
-        }
+        avatar:user?.avatar?.url
     }
 
     const methods = useForm({

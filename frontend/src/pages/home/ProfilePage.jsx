@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom'
-import { Avatar, Box, Button, Divider, Grid, ImageList, ImageListItem, Link, Stack, Typography, useTheme } from '@mui/material';
+import { Avatar, Box, Button, Divider, Grid, IconButton, ImageList, ImageListItem, Link, Stack, Typography, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from '../../redux/slices/userSlice';
 import useResponsive from '../../hooks/useResponsive';
@@ -93,6 +93,7 @@ const ProfilePage = () => {
                             : theme.palette.background,
                 }}
             >
+        
                 {/* Header section of Profile */}
                 {isLoading ? <ChatLoader loading={isLoading} /> :
                     <>

@@ -6,7 +6,8 @@ const initialState = {
         open: null,
         severity: null,
         message: null,
-    }
+    },
+    showFunDialog: false,
 }
 
 const appSlice = createSlice({
@@ -25,12 +26,21 @@ const appSlice = createSlice({
         updateTab(state, action) {
             state.tab = action.payload.tab;
         },
+        showFunDialog(state, action) {
+            state.showFunDialog = action.payload;
+        },
     }
 })
 export default appSlice.reducer;
 
 export const closeSnackBar = () => async (dispatch, getState) => {
     dispatch(appSlice.actions.closeSnackBar());
+};
+export const closeFunDialog = () => async (dispatch, getState) => {
+    dispatch(appSlice.actions.showFunDialog(false));
+};
+export const openFunDialog = () => async (dispatch, getState) => {
+    dispatch(appSlice.actions.showFunDialog(true));
 };
 
 export const showSnackbar = ({ severity, message }) =>

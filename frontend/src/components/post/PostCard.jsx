@@ -12,6 +12,7 @@ import axios from '../../utils/axios'
 import { likePost } from '../../redux/slices/postSlice';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { openFunDialog } from '../../redux/slices/app';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -42,7 +43,7 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
 
     const handleLike = async () => {
         setLiked(!liked);
-       await dispatch(likePost(_id));
+        await dispatch(likePost(_id));
         const { data } = await axios.get(`/api/v1/post/detail/${_id}`)
         setAllLikes(data.post.likes)
     }
@@ -77,7 +78,7 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
                     <Avatar onClick={() => navigate(`/${postedBy.username}`)} src={postedBy.avatar.url} />
                 }
                 action={
-                    <IconButton color='primary'>
+                    <IconButton color='primary' onClick={() => { dispatch(openFunDialog()) }} >
                         <DotsThreeOutlineVertical />
                     </IconButton>
                 }
@@ -105,7 +106,7 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
                 <IconButton color='primary' onClick={handleLike}>
                     <Heart weight={liked ? 'fill' : 'regular'} />
                 </IconButton>
-                <IconButton  >
+                <IconButton onClick={() => { dispatch(openFunDialog()) }} >
                     <PaperPlaneTilt />
                 </IconButton>
 
@@ -128,9 +129,9 @@ export default function PostCard({ _id, caption, likes, comments, image, postedB
                         <PostComment postId={_id} />
                     </Box>)
             }
-            <Collapse sx={{my:1}} in={expanded} timeout="auto" unmountOnExit>
+            <Collapse sx={{ my: 1 }} in={expanded} timeout="auto" unmountOnExit>
                 {/* <CardContent> */}
-                    <Comments comments={allComments} />
+                <Comments comments={allComments} />
                 {/* </CardContent> */}
             </Collapse>
         </Card >

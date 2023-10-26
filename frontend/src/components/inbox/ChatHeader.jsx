@@ -2,6 +2,8 @@ import { Avatar, Badge, Box, Button, IconButton, Link, Stack, Typography, styled
 import { ArrowLeft, DotsThreeOutlineVertical } from "phosphor-react";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
 import useResponsive from "../../hooks/useResponsive";
+import { useDispatch } from "react-redux";
+import { openFunDialog } from "../../redux/slices/app";
 
 const StyledBadge = styled(Badge)(({ theme, online }) => ({
     "& .MuiBadge-badge": {
@@ -41,7 +43,8 @@ const ChatHeader = ({ user, online }) => {
     const theme = useTheme();
     const { userId } = useParams();
     const isDesktop = useResponsive("up", "md");
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleBack = () => {
         if (userId) navigate('/inbox')
@@ -62,7 +65,7 @@ const ChatHeader = ({ user, online }) => {
         >
             <Stack direction={"row"} spacing={0.5}>
                 {!isDesktop &&
-                    <IconButton  onClick={handleBack}>
+                    <IconButton onClick={handleBack}>
                         <ArrowLeft />
                     </IconButton>
                 }
@@ -85,7 +88,7 @@ const ChatHeader = ({ user, online }) => {
                 </Stack>
             </Stack>
 
-            <IconButton color='primary' >
+            <IconButton color='primary' onClick={() => { dispatch(openFunDialog()) }} >
 
                 <DotsThreeOutlineVertical />
 
