@@ -20,7 +20,7 @@ const TextMsg = ({ ownMsg, avatar, content, createdAt }) => {
                 <Stack direction={"row"} justifyContent={"space-between"}>
                     <Typography
                         variant="body2"
-                        color={ownMsg ? theme.palette.text : "#fff"}
+                        color={theme.palette.text}
                     >
                         {content}
                     </Typography>
