@@ -9,7 +9,7 @@ import { UpdateTab } from '../../redux/slices/app';
 import ProfileMenu from '../menus/ProfileMenu';
 const SideNav = () => {
     const navigate = useNavigate();
-    customLogger.trace("Loading SideNav comp", "SideNav()")
+    //customLogger.trace("Loading SideNav comp", "SideNav()")
     const theme = useTheme();
     const { tab } = useSelector(state => state.app)
 

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import customLogger from '../../utils/logger'
 
 const AuthLayout = () => {
-  customLogger.info("Loading AuthLayout","AuthLayout()")
+  //customLogger.trace("Loading AuthLayout","AuthLayout()")
   const { isLoggedIn } = useSelector((state) => state.user);
 
   if (isLoggedIn) {

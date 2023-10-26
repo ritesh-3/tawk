@@ -4,7 +4,7 @@ import { Alert, Snackbar } from "@mui/material";
 import { closeSnackBar } from "./redux/slices/app";
 import customLogger from "./utils/logger";
 function App() {
-  customLogger.trace("App Component Loading","App()")
+ // customLogger.trace("App Component Loading","App()")
   const dispatch = useDispatch();
   const { severity, message, open } = useSelector(
     (state) => state.app.snackbar

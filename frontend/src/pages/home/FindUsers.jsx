@@ -3,14 +3,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Avatar, Box, Button, Card, CardContent, Link, Paper, Stack, TextField, Typography, styled, useTheme } from '@mui/material'
 // import { allUsers } from '../../constants/constants'
 import useResponsive from '../../hooks/useResponsive'
-import { UserPlus } from 'phosphor-react'
-import customLogger from '../../utils/logger'
 import { useDispatch, useSelector } from 'react-redux'
 import { LoadAllUsers } from '../../redux/slices/userSlice'
 import { LoadingButton } from '@mui/lab';
 import useFollowUser from '../../hooks/useFollowUser';
 import ChatLoader from '../../components/loader/ChatLoader';
-import PostLoading from '../../components/loader/PostLoading';
 
 const StyledChatBox = styled(Box)(({ theme }) => ({
   "&:hover": {

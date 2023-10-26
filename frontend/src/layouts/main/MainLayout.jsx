@@ -8,7 +8,7 @@ import BottomNav from '../../components/navs/BottomNav';
 import useResponsive from '../../hooks/useResponsive';
 
 const MainLayout = () => {
-    customLogger.trace("Loading MainLayout", "MainLayout()")
+    //customLogger.trace("Loading MainLayout", "MainLayout()")
 
     const isDesktop = useResponsive("up", "md");
     const { isLoggedIn } = useSelector(state => state.user)

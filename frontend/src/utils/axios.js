@@ -4,7 +4,8 @@ import { BASE_URL } from '../constants/constants';
 
 // ----------------------------------------------------------------------
 
-const axiosInstance = axios.create({ baseURL: BASE_URL, withCredentials: true });
+console.log("api_base", import.meta.env.VITE_API_BASE)
+const axiosInstance = axios.create({ baseURL: (import.meta.env.VITE_API_BASE || BASE_URL), withCredentials: true });
 
 axiosInstance.interceptors.response.use(
   (response) => response,

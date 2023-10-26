@@ -118,7 +118,7 @@ export default userSlice.reducer;
 export function LoginUser(formValues) {
     return async (dispatch, getState) => {
         // Make API call here
-        customLogger.trace("LogginUser", "userSlice#LoginUser")
+       // customLogger.trace("LogginUser", "userSlice#LoginUser")
         dispatch(userSlice.actions.updateIsLoading({ isLoading: true, error: false }));
         await axios
             .post(
@@ -196,7 +196,7 @@ export function LoadAllUsers() {
             customLogger.trace("Loading all users", "userSlce#LoadAllUsers")
             dispatch(userSlice.actions.updateIsLoading({ isLoading: true, error: false }));
             const { data } = await axios.get('/api/v1/users/suggested');
-            customLogger.trace("All Users Loaded successfully", "userSlce#LoadAllUsers")
+            customLogger.info("All Users Loaded successfully", "userSlce#LoadAllUsers")
             dispatch(userSlice.actions.allUsers({ users: data.users }))
             dispatch(
                 userSlice.actions.updateIsLoading({ isLoading: false, error: false })
@@ -221,7 +221,7 @@ export function getUserDetails(username) {
             customLogger.trace("Loading User", "userSlce#getUserDetails")
             dispatch(userSlice.actions.updateIsLoading({ isLoading: true, error: false }));
             const { data } = await axios.get(`/api/v1/user/${username}`);
-            customLogger.trace("All Users Loaded successfully", "userSlce#LoadAllUsers")
+            customLogger.info("All Users Loaded successfully", "userSlce#LoadAllUsers")
             dispatch(userSlice.actions.updateOtherUser({ user: data.user }))
             dispatch(
                 userSlice.actions.updateIsLoading({ isLoading: false, error: false })
@@ -245,7 +245,7 @@ export function followUser(userId) {
             customLogger.trace("Following USer", "userSlce#followUser", "", userId)
             dispatch(userSlice.actions.followUser({ status: true }));
             const { data } = await axios.get(`/api/v1/follow/${userId}`);
-            customLogger.trace("Follow users api returned resposne", "userSlce#LoadAllUsers", "", data)
+            customLogger.info("Follow users api returned resposne", "userSlce#LoadAllUsers", "", data)
             dispatch(userSlice.actions.followUser({ status: false }));
         } catch (error) {
             customLogger.error(error.message, "userSlce#followUser")
@@ -265,7 +265,7 @@ export function LogOut() {
             customLogger.trace("LogOut USer", "userSlce#LogOut", "")
             dispatch(userSlice.actions.updateIsLoading({ isLoading: true, error: false }));
             await axios.get('/api/v1/logout');
-            customLogger.trace("LogOut users api returned resposne", "userSlce#LoadAllUsers", "")
+            customLogger.info("LogOut users api returned resposne", "userSlce#LoadAllUsers", "")
             dispatch(userSlice.actions.logIn({
                 isLoggedIn: false,
                 user: null

@@ -25,7 +25,7 @@ const Inbox = () => {
     useEffect(() => {
         dispatch(getAllChats())
         if (!socket?.current) {
-            socket.current = io(BASE_URL);
+            socket.current = io(import.meta.env.VITE_API_BASE || BASE_URL);
         }
 
         socket.current.on("getMessage", (data) => {
@@ -40,7 +40,7 @@ const Inbox = () => {
         })
     }, [])
 
-    socket.current = io(BASE_URL);
+    socket.current = io(import.meta.env.VITE_API_BASE || BASE_URL);
 
     return (
         <Stack
