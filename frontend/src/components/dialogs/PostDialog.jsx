@@ -1,9 +1,12 @@
 import { Avatar, Box, Dialog, Grid, IconButton, Link, Paper, Slide, Stack, TextField, Typography, styled, useTheme } from '@mui/material'
-import React, { useState } from 'react'
-import { Link as RouterLink } from 'react-router-dom';
-import { Trash, X } from "phosphor-react"
+import React, { useEffect, useState } from 'react'
+import { Link as RouterLink, useParams } from 'react-router-dom';
+import { Spinner, Trash, X } from "phosphor-react"
 import useResponsive from '../../hooks/useResponsive';
 import PostComment from '../post/PostComment';
+import { useDispatch, useSelector } from 'react-redux';
+import postSlice, { deletePost, resetDeletePostSuccess } from '../../redux/slices/postSlice';
+import { getUserDetails } from '../../redux/slices/userSlice';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -17,7 +20,24 @@ const StyledInput = styled(TextField)(({ theme }) => ({
     },
 }));
 
-const Header = ({ postedBy, setOpenPostDialog }) => {
+const Header = ({ postId, postedBy, setOpenPostDialog }) => {
+
+    const dispatch = useDispatch();
+    const { deltePostLoading, deltePostSuccess } = useSelector(state => state.posts)
+    const { username } = useParams()
+    const handleDeltePost = () => {
+        if (!deltePostLoading) {
+            dispatch(deletePost(postId))
+        }
+    }
+
+    // useEffect(() => {
+    //     if (deltePostSuccess) {
+    //         dispatch(getUserDetails(username))
+    //         dispatch(resetDeletePostSuccess())
+    //     }
+    // }, [deltePostSuccess])
+
     return <Stack
         sx={{ width: '100%' }}
         direction='row'
@@ -26,9 +46,16 @@ const Header = ({ postedBy, setOpenPostDialog }) => {
             <Avatar sx={{ width: '30px', height: '30px' }} src={postedBy.avatar.url} />
             <Link component={RouterLink} to={`/${postedBy.username}`} >{postedBy.username}</Link>
         </Stack>
-        <IconButton >
-            <X onClick={() => { setOpenPostDialog(false) }} />
-        </IconButton>
+        <Stack direction={'row'} >
+            <IconButton onClick={handleDeltePost} color='error'>
+                {deltePostLoading ? <Spinner /> :
+                    <Trash />
+                }
+            </IconButton>
+            <IconButton >
+                <X onClick={() => { setOpenPostDialog(false) }} />
+            </IconButton>
+        </Stack>
     </Stack>
 }
 
@@ -78,7 +105,7 @@ const PostDialog = ({ open, onClose, selectedPost, setOpenPostDialog }) => {
             fullWidth maxWidth="sm">
             <Box display="flex" flexDirection={isDesktop ? 'row' : 'column'} width="100%">
                 <Stack p={2} spacing={2} width={isDesktop ? '60%' : '100%'}>
-                    <Header setOpenPostDialog={setOpenPostDialog} postedBy={postedBy} />
+                    <Header setOpenPostDialog={setOpenPostDialog} postedBy={postedBy} postId={_id} />
                     <Box >
                         <Typography variant="body1" paragraph>
                             {caption}

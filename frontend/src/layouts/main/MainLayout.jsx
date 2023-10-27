@@ -34,7 +34,7 @@ const MainLayout = () => {
                     overflowY: "scroll",
                     backgroundColor:
                         theme.palette.mode === "light"
-                            ? "#"
+                            ? "F0F4FA"
                             : theme.palette.background,
 
                     boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",

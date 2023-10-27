@@ -76,13 +76,28 @@ export const optimizeImage = async (imageDataUrl) => {
             const width = img.width;
             const height = img.height;
 
-            // Check if the image needs resizing
+            // Calculate the new width and height while maintaining the aspect ratio
+            let newWidth = width;
+            let newHeight = height;
+
             if (width > maxWidth || height > maxHeight) {
+                const aspectRatio = width / height;
+
+                if (width > maxWidth) {
+                    newWidth = maxWidth;
+                    newHeight = maxWidth / aspectRatio;
+                }
+
+                if (newHeight > maxHeight) {
+                    newHeight = maxHeight;
+                    newWidth = maxHeight * aspectRatio;
+                }
+
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
-                canvas.width = maxWidth;
-                canvas.height = maxHeight;
-                ctx.drawImage(img, 0, 0, maxWidth, maxHeight);
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
                 resolve(canvas.toDataURL('image/jpeg', 0.8)); // Convert to JPEG for optimization
             } else {
                 resolve(imageDataUrl);
@@ -90,3 +105,4 @@ export const optimizeImage = async (imageDataUrl) => {
         };
     });
 }
+

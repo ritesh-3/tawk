@@ -8,15 +8,23 @@ const initialState = {
     postsLoading: false,
     newPostLoading: false,
     success: false,
-    commentSuccess:false,
+    commentSuccess: false,
     posts: [],
     totalPosts: null,
+    deltePostLoading: false,
+    deltePostSuccess: false
 };
 
 
 const postSlice = createSlice({
     name: 'posts',
     initialState,
+    reducers: {
+        resetDeletePostSuccess(state, action) {
+            state.deltePostSuccess = false;
+            state.deltePostLoading = false;
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(addComment.pending, (state, action) => {
@@ -54,10 +62,24 @@ const postSlice = createSlice({
                 state.newPostLoading = false
                 state.success = false
             })
+            .addCase(deletePost.pending, (state, action) => {
+                state.deltePostLoading = true
+                state.deltePostSuccess = false
+
+            })
+            .addCase(deletePost.fulfilled, (state, action) => {
+                state.deltePostLoading = false
+                state.deltePostSuccess = true
+            })
+            .addCase(deletePost.rejected, (state, action) => {
+                state.deltePostLoading = false
+                state.deltePostSuccess = false
+            })
     }
 })
 
 export default postSlice.reducer;
+export const { resetDeletePostSuccess } = postSlice.actions;
 
 export const addComment = createAsyncThunk('addComment', async ({ postId, comment }, { dispatch }) => {
     try {
@@ -67,7 +89,7 @@ export const addComment = createAsyncThunk('addComment', async ({ postId, commen
         return data;
     } catch (error) {
         customLogger.error("postSlice#addComment", "Error response", "", error)
-        dispatch(showSnackbar({ severity: "error", message: "Error while Commenting"}));
+        dispatch(showSnackbar({ severity: "error", message: "Error while Commenting" }));
         throw new Error(error.message);
     }
 });
@@ -104,6 +126,18 @@ export const addNewPost = createAsyncThunk('addNewPost', async (postData, { disp
         return data
     } catch (error) {
         customLogger.error("postSlice#addNewPost", "Error response", "", error)
+        dispatch(showSnackbar({ severity: "error", message: "Error while posting" }));
+        throw new Error(error.message);
+    }
+})
+export const deletePost = createAsyncThunk('deletePost', async (postId, { dispatch }) => {
+    try {
+        const { data } = await axios.delete(`/api/v1/post/${postId}`);
+        dispatch(showSnackbar({ severity: "success", message: "Posted deleted!" }));
+        customLogger.info("postSlice#addNewPost", "Loaded Posts successfully..")
+        return data
+    } catch (error) {
+        customLogger.error("postSlice#deletePost", "Error response", "", error)
         dispatch(showSnackbar({ severity: "error", message: "Error while posting" }));
         throw new Error(error.message);
     }
